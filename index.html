@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uphar Cookies & Cafe | Premium Digital Menu</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              brown: '#3D2B1F',      // From Frosted Glass theme text-[#3D2B1F]
+              brownDark: '#2C1D13',  // Dark chocolate background
+              cream: '#F5F2ED',      // From Frosted Glass theme bg-[#F5F2ED]
+              creamDark: '#DCD6CB',  // Darker warm-gray/beige for accents and borders
+              white: '#FDFBF7',      // Warm crisp white text-[#FDFBF7]
+              gold: '#D4AF37',       // Frosted Glass theme gold
+              goldDark: '#B8860B',   // Dark gold for gradients (Chef's recommendation)
+              orange: '#FF9F43',     // Decorative orange accent blur
+              green: '#25D366',      // WhatsApp green
+              red: '#E03E3E'         // Clean crimson red
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            display: ['Space Grotesk', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Premium Frosted Glass Blurs & Custom Scrollers */
+    .glass-light {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .glass-dark {
+      background: rgba(61, 43, 31, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Food photography shimmer */
+    @keyframes shimmer {
+      100% { transform: translateX(100%); }
+    }
+    .shimmer-bg {
+      position: relative;
+      overflow: hidden;
+    }
+    .shimmer-bg::after {
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      transform: translateX(-100%);
+      background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0) 100%);
+      animation: shimmer 1.5s infinite;
+      content: '';
+    }
+    .dark .shimmer-bg::after {
+      background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.1) 60%, rgba(255,255,255,0) 100%);
+    }
+
+    /* Indian FSSAI Veg/Non-Veg Badges */
+    .veg-border { border: 2px solid #27AE60; }
+    .veg-dot { background-color: #27AE60; }
+    .nonveg-border { border: 2px solid #C0392B; }
+    .nonveg-dot { background-color: #C0392B; }
+
+    /* Staggered card entry animations */
+    .fade-up-card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-up-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-brand-cream dark:bg-brand-brownDark text-black dark:text-brand-cream transition-colors duration-300 font-sans selection:bg-brand-gold selection:text-brand-brown min-h-screen relative overflow-x-hidden">
+
+  <!-- Decorative Background Blurs (Frosted Glass Theme) -->
+  <div class="fixed top-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#FF9F43] rounded-full blur-[120px] opacity-20 dark:opacity-10 pointer-events-none z-0"></div>
+  <div class="fixed bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-[#D4AF37] rounded-full blur-[150px] opacity-20 dark:opacity-10 pointer-events-none z-0"></div>
+
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-3 px-4 md:px-8 border-b border-transparent">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center text-brand-brown font-serif font-bold text-xl shadow-lg border border-brand-white/20">U</div>
+        <div>
+          <h1 class="font-serif font-bold text-lg md:text-xl tracking-tight text-black dark:text-brand-cream">Uphar</h1>
+          <p class="text-[10px] uppercase tracking-widest text-brand-gold font-semibold -mt-1">Cookies & Cafe</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="p-2.5 rounded-full bg-white/60 dark:bg-black/30 hover:bg-brand-gold/20 dark:hover:bg-brand-gold/20 border border-brand-creamDark/30 dark:border-brand-brown/50 transition-all duration-300 text-black dark:text-brand-cream shadow-sm" aria-label="Toggle Theme">
+          <i data-lucide="moon" class="w-5 h-5 dark:hidden"></i>
+          <i data-lucide="sun" class="w-5 h-5 hidden dark:block text-brand-gold"></i>
+        </button>
+        <!-- Service Bell Button -->
+        <button onclick="openWaiterModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-brand-gold text-brand-brown font-semibold text-xs uppercase tracking-wider hover:bg-brand-goldDark transition-all duration-300 shadow-md hover:scale-105 active:scale-95">
+          <i data-lucide="bell" class="w-4 h-4 animate-bounce"></i>
+          <span class="hidden sm:inline">Call Server</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[75vh] flex items-center justify-center overflow-hidden pt-20">
+    <!-- Hero Background Image with Slow Zoom -->
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80" alt="Cafe Ambiance" class="w-full h-full object-cover brightness-[0.4] dark:brightness-[0.25] transition-transform duration-10000 scale-105 hover:scale-100" id="heroBg">
+      <div class="absolute inset-0 bg-gradient-to-t from-brand-cream via-transparent to-brand-brownDark/40 dark:from-brand-brownDark"></div>
+    </div>
+
+    <!-- Floating Ornaments (Aesthetic) -->
+    <div class="absolute top-[20%] left-[10%] w-12 h-12 bg-brand-gold/10 rounded-full blur-xl animate-pulse"></div>
+    <div class="absolute bottom-[30%] right-[15%] w-24 h-24 bg-brand-orange/10 rounded-full blur-2xl animate-pulse delay-700"></div>
+
+    <div class="relative z-10 text-center px-4 max-w-3xl mx-auto flex flex-col items-center">
+      <span class="px-4 py-1.5 rounded-full bg-brand-gold/10 text-brand-gold text-xs font-semibold tracking-widest uppercase mb-4 border border-brand-gold/20 backdrop-blur-md animate-fade-in">⭐ Pure Vegetarian & Premium Selections</span>
+      <h2 class="font-serif font-bold text-4xl sm:text-5xl md:text-6xl text-brand-white tracking-tight leading-tight mb-3">
+        Uphar Cookies & Cafe
+      </h2>
+      <p class="font-serif italic text-brand-gold text-lg sm:text-xl md:text-2xl mb-8 tracking-wide">
+        "Fresh Taste &bull; Premium Experience"
+      </p>
+      
+      <!-- Quick Info Badges -->
+      <div class="flex flex-wrap justify-center gap-3 max-w-lg">
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 text-brand-white text-xs border border-white/15 backdrop-blur-sm">
+          <i data-lucide="cookie" class="w-3.5 h-3.5 text-brand-gold"></i> Order Fresh
+        </div>
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 text-brand-white text-xs border border-white/15 backdrop-blur-sm">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-gold"></i> Delicious Food
+        </div>
+        <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 text-brand-white text-xs border border-white/15 backdrop-blur-sm">
+          <i data-lucide="heart" class="w-3.5 h-3.5 text-brand-gold"></i> Made With Love
+        </div>
+      </div>
+
+      <!-- Arrow Down Indicator -->
+      <a href="#menuSection" class="mt-12 text-brand-gold hover:text-brand-white transition-colors duration-300 animate-bounce">
+        <i data-lucide="chevron-down" class="w-8 h-8"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Sticky Controls Section (Search & Filter) -->
+  <section id="menuSection" class="relative md:sticky md:top-16 z-30 py-4 transition-all duration-300 border-b border-white/40 dark:border-white/10 bg-white/30 dark:bg-brand-brown/30 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <!-- Search and Filter Panel -->
+      <div class="flex flex-col md:flex-row gap-3 items-center justify-between mb-4">
+        <!-- Search bar -->
+        <div class="relative w-full md:max-w-md">
+          <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-black/50 dark:text-brand-cream/50"></i>
+          <input type="text" id="searchInput" placeholder="Search delicious dishes..." class="w-full pl-10 pr-10 py-2.5 rounded-full bg-white/70 dark:bg-black/30 border border-white/60 dark:border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold outline-none transition-all duration-300 shadow-inner text-black dark:text-brand-cream">
+          <button id="clearSearch" class="hidden absolute right-3.5 top-1/2 -translate-y-1/2 text-black/45 dark:text-brand-cream/45 hover:text-brand-orange">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Filter Buttons (Veg, Non-Veg, Prices) -->
+        <div class="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
+          <button onclick="setDietFilter('all')" id="diet-all" class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-gold text-brand-brown transition-all duration-300 shadow-sm border border-brand-gold">All</button>
+          <button onclick="setDietFilter('veg')" id="diet-veg" class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/50 dark:bg-black/30 hover:bg-white/80 dark:hover:bg-black/50 border border-white/60 dark:border-white/10 text-black dark:text-brand-cream transition-all duration-300 shadow-sm flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-brand-green"></span> Veg
+          </button>
+          <button onclick="setDietFilter('nonveg')" id="diet-nonveg" class="px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/50 dark:bg-black/30 hover:bg-white/80 dark:hover:bg-black/50 border border-white/60 dark:border-white/10 text-black dark:text-brand-cream transition-all duration-300 shadow-sm flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-brand-red"></span> Non Veg
+          </button>
+          
+          <span class="h-6 w-px bg-brand-creamDark/50 dark:bg-brand-brown/60 mx-1 hidden sm:inline"></span>
+
+          <!-- Sort Select -->
+          <div class="relative">
+            <select id="sortSelect" onchange="applyFiltersAndSort()" class="appearance-none pl-3 pr-8 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/50 dark:bg-black/30 border border-white/60 dark:border-white/10 focus:outline-none focus:ring-1 focus:ring-brand-gold text-black dark:text-brand-cream shadow-sm cursor-pointer">
+              <option value="default">Default Sort</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="calories">Calories: Lightest First</option>
+            </select>
+            <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 pointer-events-none text-black/60 dark:text-brand-cream/60"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categories Horizontal Scrolling Tabs -->
+      <div class="relative flex items-center">
+        <!-- Scroll Left Button -->
+        <button onclick="scrollCategories(-150)" class="absolute left-0 z-10 p-1.5 rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-md shadow-md border border-white/60 dark:border-white/10 hover:text-brand-gold transition-colors duration-300 cursor-pointer">
+          <i data-lucide="chevron-left" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Tabs Container -->
+        <div id="categoryTabs" class="flex gap-2 overflow-x-auto no-scrollbar py-2 px-7 scroll-smooth w-full select-none">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Scroll Right Button -->
+        <button onclick="scrollCategories(150)" class="absolute right-0 z-10 p-1.5 rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-md shadow-md border border-white/60 dark:border-white/10 hover:text-brand-gold transition-colors duration-300 cursor-pointer">
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Cards Display -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 min-h-[60vh]">
+    <!-- Active filters display status -->
+    <div id="filterStatus" class="hidden mb-6 flex items-center justify-between bg-brand-gold/10 border border-brand-gold/20 px-4 py-2.5 rounded-xl text-sm">
+      <div class="flex items-center gap-1.5 text-brand-brown dark:text-brand-cream">
+        <i data-lucide="filter" class="w-4 h-4 text-brand-gold"></i>
+        <span id="filterStatusText">Showing matching items</span>
+      </div>
+      <button onclick="resetAllFilters()" class="text-xs font-semibold text-brand-orange hover:underline uppercase tracking-wider">Reset Filters</button>
+    </div>
+
+    <!-- Skeleton Grid Loader (shimmer) -->
+    <div id="skeletonLoader" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- 8 skeletons -->
+      <script>
+        for (let i = 0; i < 8; i++) {
+          document.write(`
+            <div class="rounded-3xl bg-white/40 dark:bg-brand-brown/30 border border-brand-creamDark/20 dark:border-brand-brown/30 p-4 space-y-4 shadow-sm">
+              <div class="w-full aspect-[4/3] rounded-2xl bg-brand-creamDark/20 dark:bg-brand-brown/40 shimmer-bg"></div>
+              <div class="space-y-2">
+                <div class="h-4 w-2/3 bg-brand-creamDark/30 dark:bg-brand-brown/50 rounded shimmer-bg"></div>
+                <div class="h-3 w-full bg-brand-creamDark/20 dark:bg-brand-brown/45 rounded shimmer-bg"></div>
+                <div class="h-3 w-5/6 bg-brand-creamDark/20 dark:bg-brand-brown/45 rounded shimmer-bg"></div>
+              </div>
+              <div class="flex items-center justify-between pt-2">
+                <div class="h-5 w-16 bg-brand-creamDark/30 dark:bg-brand-brown/50 rounded shimmer-bg"></div>
+                <div class="h-8 w-8 rounded-full bg-brand-creamDark/30 dark:bg-brand-brown/50 shimmer-bg"></div>
+              </div>
+            </div>
+          `);
+        }
+      </script>
+    </div>
+
+    <!-- Real Cards Container -->
+    <div id="menuContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 hidden">
+      <!-- Injected dynamically by JS -->
+    </div>
+
+    <!-- No Items Found State -->
+    <div id="noItemsState" class="hidden flex flex-col items-center justify-center py-20 text-center">
+      <div class="w-20 h-20 rounded-full bg-brand-gold/10 flex items-center justify-center text-brand-gold mb-4 border border-brand-gold/10">
+        <i data-lucide="search-code" class="w-10 h-10"></i>
+      </div>
+      <h3 class="font-serif font-bold text-xl mb-1">No Delicious Matches Found</h3>
+      <p class="text-sm text-brand-brown/60 dark:text-brand-cream/60 max-w-sm">Try adjusting your keywords, switching categories, or clearing your dietary filters!</p>
+      <button onclick="resetAllFilters()" class="mt-6 px-6 py-2.5 rounded-full bg-brand-gold text-brand-brown font-semibold text-xs uppercase tracking-widest hover:bg-brand-goldDark transition-all duration-300 shadow-md">Reset Search & Filters</button>
+    </div>
+  </main>
+
+  <!-- Interactive Food Details Modal -->
+  <div id="foodModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+    <!-- Click outside boundary to close -->
+    <div class="absolute inset-0" onclick="closeFoodModal()"></div>
+    
+    <div class="relative w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl glass-light dark:glass-dark border border-white/60 dark:border-white/10 z-10 transition-transform duration-300 scale-95" id="modalContent">
+      <!-- Close button -->
+      <button onclick="closeFoodModal()" class="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/50 hover:bg-black/80 text-brand-white transition-colors duration-300">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- Food Large Image -->
+      <div class="relative h-60 w-full overflow-hidden bg-brand-creamDark/10">
+        <img id="modalImg" src="" alt="" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-4 left-4 flex flex-wrap items-center gap-2">
+          <span id="modalDietBadge" class="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-white/95 text-brand-brown shadow-sm">
+            <!-- Filled by JS -->
+          </span>
+          <span id="modalSpecialBadge" class="hidden px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-brand-gold text-brand-brown shadow-sm">
+            <!-- Filled by JS -->
+          </span>
+        </div>
+      </div>
+
+      <!-- Food details body -->
+      <div class="p-6 space-y-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 id="modalName" class="font-serif font-bold text-2xl tracking-tight text-black dark:text-brand-cream"></h3>
+            <p id="modalCategory" class="text-xs uppercase tracking-wider text-brand-gold font-semibold mt-0.5"></p>
+          </div>
+          <div class="text-right flex flex-col items-end">
+            <span id="modalPrice" class="font-serif font-semibold text-2xl text-brand-orange"></span>
+            <span id="modalCalories" class="text-xs text-black/60 dark:text-brand-cream/50 font-mono mt-1"></span>
+          </div>
+        </div>
+
+        <hr class="border-brand-creamDark/30 dark:border-brand-brown/60">
+
+        <!-- Food description -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-brand-gold mb-1">About this Dish</h4>
+          <p id="modalDesc" class="text-sm leading-relaxed text-black dark:text-brand-cream/90"></p>
+        </div>
+
+        <!-- Nutrients breakdown (Dynamically computed realistic stats) -->
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-brand-gold mb-2.5">Nutritional Information</h4>
+          <div class="grid grid-cols-4 gap-2 text-center">
+            <div class="p-2 rounded-xl bg-brand-creamDark/10 dark:bg-brand-brownDark/50 border border-brand-creamDark/30 dark:border-brand-brown/30">
+              <span id="nutrCal" class="block font-mono text-sm font-semibold text-black dark:text-brand-cream"></span>
+              <span class="text-[9px] uppercase tracking-wider text-black/60 dark:text-brand-cream/50">Calories</span>
+            </div>
+            <div class="p-2 rounded-xl bg-brand-creamDark/10 dark:bg-brand-brownDark/50 border border-brand-creamDark/30 dark:border-brand-brown/30">
+              <span id="nutrCarbs" class="block font-mono text-sm font-semibold text-black dark:text-brand-cream"></span>
+              <span class="text-[9px] uppercase tracking-wider text-black/60 dark:text-brand-cream/50">Carbs</span>
+            </div>
+            <div class="p-2 rounded-xl bg-brand-creamDark/10 dark:bg-brand-brownDark/50 border border-brand-creamDark/30 dark:border-brand-brown/30">
+              <span id="nutrProtein" class="block font-mono text-sm font-semibold text-black dark:text-brand-cream"></span>
+              <span class="text-[9px] uppercase tracking-wider text-black/60 dark:text-brand-cream/50">Protein</span>
+            </div>
+            <div class="p-2 rounded-xl bg-brand-creamDark/10 dark:bg-brand-brownDark/50 border border-brand-creamDark/30 dark:border-brand-brown/30">
+              <span id="nutrFat" class="block font-mono text-sm font-semibold text-black dark:text-brand-cream"></span>
+              <span class="text-[9px] uppercase tracking-wider text-black/60 dark:text-brand-cream/50">Fat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Allergens disclaimer (Realistically computed) -->
+        <div id="allergenSection" class="p-3 rounded-xl bg-brand-orange/5 border border-brand-orange/15 text-xs text-brand-orange flex gap-2 items-start">
+          <i data-lucide="info" class="w-4 h-4 shrink-0 mt-0.5"></i>
+          <div>
+            <span class="font-semibold block">Allergen Notice:</span>
+            <span id="allergenText"></span>
+          </div>
+        </div>
+
+        <!-- Call server action button inside modal -->
+        <div class="pt-2 flex gap-3">
+          <button onclick="orderDishFromModal()" class="flex-1 py-3 rounded-full bg-brand-gold hover:bg-brand-goldDark text-brand-brown font-semibold text-xs uppercase tracking-widest transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98]">
+            Request This Dish
+          </button>
+          <button onclick="shareItemQR()" class="p-3 rounded-full bg-brand-creamDark/20 dark:bg-brand-brownDark/80 hover:bg-brand-gold/10 border border-brand-creamDark/30 dark:border-brand-brown/50 text-brand-gold transition-colors duration-300" title="Generate QR Code">
+            <i data-lucide="qr-code" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call Waiter Form Modal -->
+  <div id="waiterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+    <div class="absolute inset-0" onclick="closeWaiterModal()"></div>
+    
+    <div class="relative w-full max-w-md rounded-3xl shadow-2xl glass-light dark:glass-dark border border-white/60 dark:border-white/10 z-10 p-6 transition-transform duration-300 scale-95" id="waiterModalContent">
+      <button onclick="closeWaiterModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-brand-creamDark/20 dark:hover:bg-brand-brownDark/50 text-brand-brown/60 dark:text-brand-cream/60 transition-colors duration-300">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 rounded-full bg-brand-gold/15 flex items-center justify-center text-brand-gold mx-auto mb-3 border border-brand-gold/15">
+          <i data-lucide="bell" class="w-7 h-7"></i>
+        </div>
+        <h3 class="font-serif font-bold text-2xl tracking-tight text-black dark:text-brand-cream">Call Service Captain</h3>
+        <p class="text-xs text-black/60 dark:text-brand-cream/50 mt-1">Select your table and service requested. A captain will assist you instantly.</p>
+      </div>
+
+      <form id="waiterForm" onsubmit="submitWaiterRequest(event)" class="space-y-4">
+        <!-- Table Number Grid -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-brand-gold mb-2">Select Your Table Number</label>
+          <div class="grid grid-cols-5 gap-2">
+            <script>
+              for(let i=1; i<=10; i++) {
+                document.write(`
+                  <button type="button" onclick="selectTable(${i})" id="tableBtn-${i}" class="table-btn py-2.5 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 text-sm font-semibold hover:border-brand-gold dark:hover:border-brand-gold text-black dark:text-brand-cream transition-colors duration-300">${i}</button>
+                `);
+              }
+            </script>
+          </div>
+          <input type="hidden" id="selectedTable" required>
+        </div>
+
+        <!-- Service Option -->
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-brand-gold mb-2">Select Assistance Needed</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="selectService('order')" id="serv-order" class="service-btn text-left p-3 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold transition-all duration-300 flex flex-col gap-1.5 text-black dark:text-brand-cream">
+              <i data-lucide="utensils" class="w-4 h-4 text-brand-gold"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Ready to Order</span>
+            </button>
+            <button type="button" onclick="selectService('water')" id="serv-water" class="service-btn text-left p-3 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold transition-all duration-300 flex flex-col gap-1.5 text-black dark:text-brand-cream">
+              <i data-lucide="droplet" class="w-4 h-4 text-brand-gold"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Need Water</span>
+            </button>
+            <button type="button" onclick="selectService('bill')" id="serv-bill" class="service-btn text-left p-3 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold transition-all duration-300 flex flex-col gap-1.5 text-black dark:text-brand-cream">
+              <i data-lucide="receipt" class="w-4 h-4 text-brand-gold"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Request Bill</span>
+            </button>
+            <button type="button" onclick="selectService('help')" id="serv-help" class="service-btn text-left p-3 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold transition-all duration-300 flex flex-col gap-1.5 text-black dark:text-brand-cream">
+              <i data-lucide="hand" class="w-4 h-4 text-brand-gold"></i>
+              <span class="text-xs font-bold uppercase tracking-wider">Call Captain</span>
+            </button>
+          </div>
+          <input type="hidden" id="selectedService" required>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-full bg-brand-gold text-brand-brown hover:bg-brand-goldDark font-bold text-xs uppercase tracking-wider shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-4">
+          Send Assistance Request
+        </button>
+      </form>
+
+      <!-- Successful sent state animation inside modal -->
+      <div id="waiterSuccessState" class="hidden flex flex-col items-center justify-center text-center py-6 space-y-4 animate-fade-in">
+        <div class="relative w-20 h-20 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green border border-brand-green/20">
+          <i data-lucide="check-circle" class="w-10 h-10 animate-bounce"></i>
+        </div>
+        <div>
+          <h4 class="font-serif font-bold text-2xl text-brand-green">Request Received</h4>
+          <p class="text-xs text-black/70 dark:text-brand-cream/60 mt-1">Captain is assigned to <strong class="text-brand-gold font-bold">Table <span id="successTable"></span></strong> for <span id="successService" class="font-semibold"></span> assistance.</p>
+        </div>
+        <p class="text-[10px] text-black/50 dark:text-brand-cream/40 font-mono">Captain will arrive within 2 minutes &bull; Status: Assigned</p>
+        <button onclick="closeWaiterModal()" class="px-6 py-2 rounded-full border border-brand-creamDark/40 dark:border-brand-brown/50 text-xs font-semibold uppercase tracking-wider hover:bg-brand-gold/10 text-black dark:text-brand-cream">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Generator Popup Modal (Premium Extra) -->
+  <div id="qrModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+    <div class="absolute inset-0" onclick="closeQrModal()"></div>
+    <div class="relative w-full max-w-sm rounded-3xl p-6 glass-light dark:glass-dark border border-white/60 dark:border-white/10 z-10 text-center space-y-4 transition-transform duration-300 scale-95" id="qrModalContent">
+      <button onclick="closeQrModal()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-brand-creamDark/20 dark:hover:bg-brand-brownDark/50 text-black/60 dark:text-brand-cream/60 transition-colors duration-300">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div class="w-12 h-12 bg-brand-gold/15 rounded-full flex items-center justify-center text-brand-gold mx-auto border border-brand-gold/15">
+        <i data-lucide="qr-code" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-serif font-bold text-xl text-black dark:text-brand-cream" id="qrItemName">Dish QR Code</h4>
+        <p class="text-[11px] text-black/60 dark:text-brand-cream/50">Scan to share or open this premium recipe details page on another smartphone!</p>
+      </div>
+      <!-- QR Canvas placeholder styled like woodblock -->
+      <div class="p-4 bg-white rounded-2xl inline-block border border-brand-creamDark/60 shadow-inner">
+        <div class="w-44 h-44 bg-slate-100 flex items-center justify-center border-2 border-dashed border-slate-300 relative">
+          <i data-lucide="chef-hat" class="w-10 h-10 text-brand-gold animate-pulse"></i>
+          <!-- Custom embedded matrix block -->
+          <div class="absolute inset-1 flex flex-wrap gap-0.5 opacity-90 p-1 bg-white">
+            <script>
+              for(let i=0; i<400; i++) {
+                let col = (Math.random() > 0.45) ? 'bg-[#231510]' : 'bg-transparent';
+                // corner squares
+                if ((i<40 && i%20<8) || (i>360 && i%20<8) || (i<40 && i%20>12)) {
+                  col = 'bg-[#231510]';
+                }
+                document.write(`<div class="w-1.5 h-1.5 rounded-[1px] ${col}"></div>`);
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+      <p class="text-[10px] text-brand-gold font-mono uppercase tracking-widest">Uphar Digital Menu QR Service</p>
+    </div>
+  </div>
+
+  <!-- Notification Banner -->
+  <div id="notifBanner" class="fixed top-20 right-4 z-50 transform translate-x-[150%] transition-transform duration-500 ease-out flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-brand-brown text-brand-white border border-brand-gold/30 shadow-2xl max-w-sm">
+    <div class="w-8 h-8 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold shrink-0">
+      <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+    </div>
+    <div class="flex-1">
+      <h5 id="notifTitle" class="font-serif font-bold text-xs text-brand-gold">Notification</h5>
+      <p id="notifText" class="text-[10px] text-brand-white/80 mt-0.5"></p>
+    </div>
+    <button onclick="hideNotification()" class="text-brand-white/40 hover:text-brand-white">
+      <i data-lucide="x" class="w-4 h-4"></i>
+    </button>
+  </div>
+
+  <!-- Sticky Bottom Navigation Bar (Mobile-first QR experience) -->
+  <nav class="fixed bottom-4 left-4 right-4 z-40 bg-brand-brown/95 dark:bg-[#2C1D13]/95 backdrop-blur-lg h-16 rounded-3xl border border-white/20 px-4 flex items-center justify-around md:hidden shadow-2xl">
+    <a href="#menuSection" onclick="selectTabMenu()" class="text-brand-gold flex flex-col items-center gap-0.5">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+      <span class="text-[9px] uppercase tracking-wider font-bold">Menu</span>
+    </a>
+    <button onclick="focusSearchMobile()" class="text-white/60 hover:text-brand-gold flex flex-col items-center gap-0.5 transition-colors duration-300">
+      <i data-lucide="search" class="w-5 h-5"></i>
+      <span class="text-[9px] uppercase tracking-wider font-bold">Search</span>
+    </button>
+    <button onclick="openWaiterModal()" class="flex flex-col items-center gap-0.5 -mt-6 relative">
+      <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center shadow-lg border-4 border-brand-cream/10 animate-pulse">
+        <i data-lucide="bell" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[9px] uppercase tracking-wider font-bold text-brand-gold mt-1">Captain</span>
+    </button>
+    <button onclick="scrollToPopular()" class="text-white/60 hover:text-brand-gold flex flex-col items-center gap-0.5 transition-colors duration-300">
+      <i data-lucide="star" class="w-5 h-5"></i>
+      <span class="text-[9px] uppercase tracking-wider font-bold">Popular</span>
+    </button>
+    <a href="#footerSection" class="text-white/60 hover:text-brand-gold flex flex-col items-center gap-0.5 transition-colors duration-300">
+      <i data-lucide="phone" class="w-5 h-5"></i>
+      <span class="text-[9px] uppercase tracking-wider font-bold">Contact</span>
+    </a>
+  </nav>
+
+  <!-- Floating Actions (WhatsApp, Call, Top) -->
+  <div class="fixed bottom-20 md:bottom-6 right-4 z-30 flex flex-col gap-3">
+    <!-- Back to Top -->
+    <button id="backToTop" class="scale-0 opacity-0 p-3 rounded-full bg-brand-white dark:bg-brand-brown text-brand-gold hover:bg-brand-gold hover:text-brand-brown border border-brand-creamDark/60 dark:border-brand-brown/60 shadow-xl transition-all duration-300" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="Back to Top">
+      <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+    <!-- Call Now -->
+    <a href="tel:+919876543210" class="p-3.5 rounded-full bg-brand-gold text-brand-brown hover:bg-brand-goldDark shadow-xl hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center" title="Call Restaurant">
+      <i data-lucide="phone-call" class="w-5 h-5"></i>
+    </a>
+    <!-- WhatsApp Connect -->
+    <a href="https://wa.me/919876543210?text=Hi%20Uphar%20Cookies%20and%20Cafe%21%20I%20am%20viewing%20your%20digital%20menu." target="_blank" class="p-3.5 rounded-full bg-[#25D366] text-white hover:bg-[#20ba59] shadow-xl hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center" title="WhatsApp Us">
+      <i data-lucide="message-circle" class="w-5 h-5"></i>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footerSection" class="bg-brand-brown text-brand-cream border-t border-brand-gold/15 py-12 px-4 md:px-8 pb-24 md:pb-12 mt-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <!-- About -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-brand-gold flex items-center justify-center text-brand-brown font-serif font-bold text-lg">U</div>
+          <span class="font-serif font-bold text-xl text-brand-gold uppercase tracking-wider">Uphar Cookies & Cafe</span>
+        </div>
+        <p class="text-xs text-brand-cream/70 leading-relaxed max-w-sm">Enjoy our hand-crafted selection of crispy golden cookies, aromatic wood-fired oven pizzas, gourmet burgers, local Indian masalas, and freshly roasted artisan single-origin coffees.</p>
+        <p class="text-[10px] text-brand-gold uppercase tracking-widest font-semibold font-mono">Premium Dining QR Service</p>
+      </div>
+
+      <!-- Contact and Hours -->
+      <div class="space-y-3">
+        <h4 class="font-serif font-bold text-lg text-brand-gold">Opening Hours & Info</h4>
+        <ul class="text-xs space-y-2 text-brand-cream/80">
+          <li class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-brand-gold shrink-0"></i> Everyday: 09:00 AM - 11:30 PM</li>
+          <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-brand-gold shrink-0"></i> 5/1, Suparshopee, Jigjani Pump, Solapur Locality, Rana Pratap Nagar, Solapur - 413004, Maharashtra</li>
+          <li class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-brand-gold shrink-0"></i> Phone: +91 98765 43210</li>
+        </ul>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-4">
+        <h4 class="font-serif font-bold text-lg text-brand-gold">Connect Directly</h4>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="https://maps.google.com/?q=5/1,+Suparshopee,+Jigjani+Pump,+Solapur+Locality,+Rana+Pratap+Nagar,+Solapur+-+413004,+Maharashtra" target="_blank" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-brand-gold/15 border border-brand-cream/10 rounded-xl text-xs font-semibold tracking-wide transition-all duration-300">
+            <i data-lucide="map" class="w-4 h-4 text-brand-gold"></i> Find Us
+          </a>
+          <a href="https://instagram.com" target="_blank" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-brand-gold/15 border border-brand-cream/10 rounded-xl text-xs font-semibold tracking-wide transition-all duration-300">
+            <i data-lucide="instagram" class="w-4 h-4 text-brand-gold"></i> Instagram
+          </a>
+          <a href="https://wa.me/919876543210" target="_blank" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/20 rounded-xl text-xs font-semibold tracking-wide text-[#25D366] transition-all duration-300">
+            <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+          </a>
+          <a href="tel:+919876543210" class="flex items-center justify-center gap-1.5 px-3 py-2 bg-brand-gold/10 hover:bg-brand-gold/20 border border-brand-gold/20 rounded-xl text-xs font-semibold tracking-wide text-brand-gold transition-all duration-300">
+            <i data-lucide="phone-call" class="w-4 h-4"></i> Call Captain
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-brand-creamDark/10">
+
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-[11px] text-brand-cream/55 mt-6 gap-2">
+      <p>&copy; 2026 Uphar Cookies & Cafe. All Rights Reserved. Crafted for QR Digital Experience.</p>
+      <div class="flex items-center gap-4">
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-green"></span> 100% Hygenic</span>
+        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-gold"></span> Premium Dining</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core JavaScript Logic -->
+  <script>
+    // Categories List
+    const CATEGORIES = [
+      { id: 'popular', label: '⭐ Popular' },
+      { id: 'veg', label: '🥦 Veg' },
+      { id: 'nonveg', label: '🍗 Non Veg' },
+      { id: 'pizza', label: '🍕 Pizza' },
+      { id: 'burger', label: '🍔 Burgers' },
+      { id: 'sandwich', label: '🥪 Sandwich' },
+      { id: 'pasta', label: '🍝 Pasta' },
+      { id: 'chinese', label: '🍜 Chinese' },
+      { id: 'maincourse', label: '🥘 Main Course' },
+      { id: 'dessert', label: '🍰 Desserts' },
+      { id: 'cookie', label: '🍪 Cookies' },
+      { id: 'coffee', label: '☕ Coffee' },
+      { id: 'colddrinks', label: '🥤 Cold Drinks' },
+      { id: 'mocktail', label: '🍹 Mocktails' }
+    ];
+
+    // Hand-curated compact database representing standard Indian cafe / restaurant (4 items per category = 56 total)
+    const MENU_ITEMS = [
+      // popular
+      { id: 'p1', name: 'Premium Choco-Chip Cookie', desc: 'Soft-baked golden cookie filled with rich molten Belgian dark chocolate.', price: 99, cal: 280, isVeg: true, category: 'popular', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80' },
+      { id: 'p2', name: 'Paneer Butter Masala', desc: 'Succulent fresh cottage cheese cooked in a smooth, buttery tangy tomato-cashew gravy.', price: 249, cal: 420, isVeg: true, category: 'popular', badge: 'Most Ordered', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=500&q=80' },
+      { id: 'p3', name: 'Special Double Patty Burger', desc: 'Double signature potato and herb patties with double cheddar cheese and garlic house dressing.', price: 189, cal: 510, isVeg: true, category: 'popular', badge: 'New Launch', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
+      { id: 'p4', name: 'Golden Cappuccino', desc: 'Rich double espresso brewed from roasted Arabica beans with frothy textured milk.', price: 149, cal: 150, isVeg: true, category: 'popular', badge: 'Chef Choice', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=500&q=80' },
+
+      // veg
+      { id: 'v1', name: 'Malai Kofta Creamy', desc: 'Mouth-melting potato and paneer balls simmered in a royal, fragrant mild cashew gravy.', price: 269, cal: 460, isVeg: true, category: 'veg', badge: '', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=500&q=80' },
+      { id: 'v2', name: 'Overnight Dal Makhani', desc: 'Slow-simmered black lentils cooked overnight on tandoor ember with butter and cream.', price: 199, cal: 380, isVeg: true, category: 'veg', badge: 'Popular', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=500&q=80' },
+      { id: 'v3', name: 'Stir Fried Kadhai Paneer', desc: 'Cottage cheese chunks cooked with crunchy colored bell peppers, coriander seeds, and dry chilis.', price: 259, cal: 410, isVeg: true, category: 'veg', badge: '', img: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=500&q=80' },
+      { id: 'v4', name: 'Shahi Mushroom Masala', desc: 'Fresh local button mushrooms cooked in a semi-dry onion and spicy black pepper gravy.', price: 229, cal: 310, isVeg: true, category: 'veg', badge: '', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=500&q=80' },
+
+      // nonveg
+      { id: 'nv1', name: 'Signature Butter Chicken', desc: 'Classic tandoor charcoal-grilled chicken simmered in a silky tomato gravy with rich butter.', price: 329, cal: 540, isVeg: false, category: 'nonveg', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=500&q=80' },
+      { id: 'nv2', name: 'Mutton Kashmiri Rogan Josh', desc: 'Extremely tender mutton chunks slow-cooked with Kashmiri red chilies and rich fennel spices.', price: 399, cal: 580, isVeg: false, category: 'nonveg', badge: '', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=500&q=80' },
+      { id: 'nv3', name: 'Aromatic Chicken Biryani', desc: 'Fragrant basmati rice cooked on dum layer with ghee, caramelized onions, and spiced chicken.', price: 289, cal: 620, isVeg: false, category: 'nonveg', badge: 'Most Ordered', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=500&q=80' },
+      { id: 'nv4', name: 'Grilled Chicken Seekh Kebab', desc: 'Fragrant minced chicken mixed with green spices, skewered and baked over hot glowing clay tandoor.', price: 259, cal: 340, isVeg: false, category: 'nonveg', badge: '', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=500&q=80' },
+
+      // pizza
+      { id: 'pz1', name: 'Hand-Tossed Paneer Pizza', desc: 'Wood-fired sourdough base loaded with cottage cheese cubes, capsicum, and spicy tandoori mayo.', price: 299, cal: 580, isVeg: true, category: 'pizza', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=500&q=80' },
+      { id: 'pz2', name: 'Margherita Supreme', desc: 'Traditional stone-baked pizza topped with hand-crushed Italian pelati tomatoes, mozzarella, and fresh basil leaves.', price: 219, cal: 450, isVeg: true, category: 'pizza', badge: '', img: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&w=500&q=80' },
+      { id: 'pz3', name: 'Veggie Paradise Crust', desc: 'Topped with sweet golden corn kernels, black olives, crisp red bell peppers, and jalapeños.', price: 279, cal: 490, isVeg: true, category: 'pizza', badge: '', img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=500&q=80' },
+      { id: 'pz4', name: 'Spicy Chicken Keema Pizza', desc: 'Minced spiced chicken keema, sliced red onions, hot green chilies, and coriander sprigs on gooey cheese.', price: 329, cal: 590, isVeg: false, category: 'pizza', badge: 'New', img: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=500&q=80' },
+
+      // burger
+      { id: 'bg1', name: 'Classic Gold Cheese Burger', desc: 'Crispy fried golden vegetable patty, sliced cheddar cheese, crisp lettuce, and gherkins.', price: 129, cal: 410, isVeg: true, category: 'burger', badge: '', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80' },
+      { id: 'bg2', name: 'Spicy Paneer Lava Burger', desc: 'Crunchy battered block paneer stuffed with liquid spicy cheese that flows with every single bite.', price: 199, cal: 540, isVeg: true, category: 'burger', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=500&q=80' },
+      { id: 'bg3', name: 'Flame Grilled Chicken Burger', desc: 'Smoked juicy chicken breast, buttered brioche bun, fresh oak leaf lettuce, and garlic mayonnaise.', price: 219, cal: 480, isVeg: false, category: 'burger', badge: 'Most Ordered', img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=500&q=80' },
+      { id: 'bg4', name: 'Swiss Garlic Mushroom Burger', desc: 'Gourmet patty topped with Swiss cheese, garlic sautéed cremini mushrooms, and creamy truffle spread.', price: 179, cal: 430, isVeg: true, category: 'burger', badge: '', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80' },
+
+      // sandwich
+      { id: 'sw1', name: 'Bombay Masala Grilled Club', desc: 'Toasted three-tier sandwich with green chutney, spiced potatoes, tomatoes, and melted Amul cheese.', price: 119, cal: 320, isVeg: true, category: 'sandwich', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80' },
+      { id: 'sw2', name: 'Creamy Spinach & Sweet Corn', desc: 'Healthy toasted sandwich packed with creamy blanched spinach, golden sweet corn, and mild herbs.', price: 139, cal: 290, isVeg: true, category: 'sandwich', badge: '', img: 'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?auto=format&fit=crop&w=500&q=80' },
+      { id: 'sw3', name: 'Tandoori Paneer Tikka Club', desc: 'Toasted multi-grain bread with roasted tandoori paneer slices, cucumbers, and a spiced yogurt glaze.', price: 169, cal: 420, isVeg: true, category: 'sandwich', badge: '', img: 'https://images.unsplash.com/photo-1540713434306-5379c2439a61?auto=format&fit=crop&w=500&q=80' },
+      { id: 'sw4', name: 'Smashed Avocado sourdough Toast', desc: 'Fresh crushed Hass avocados, organic cherry tomatoes, sea salt, and extra virgin olive oil on toasted sourdough.', price: 189, cal: 310, isVeg: true, category: 'sandwich', badge: 'New', img: 'https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=500&q=80' },
+
+      // pasta
+      { id: 'ps1', name: 'Signature Pink Sauce Pasta', desc: 'Delicious combination of tangy red tomato marinara and velvety white alfredo sauce tossed with penne.', price: 229, cal: 440, isVeg: true, category: 'pasta', badge: 'Most Ordered', img: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ps2', name: 'Arrabbiata Fiery Tomato Pasta', desc: 'Tossed with hot chilis, crushed garlic cloves, fresh basil, and extra virgin olive oil.', price: 199, cal: 380, isVeg: true, category: 'pasta', badge: '', img: 'https://images.unsplash.com/photo-1563379971899-660589a01cc3?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ps3', name: 'Fettuccine Creamy Alfredo', desc: 'Silky, rich cream sauce made of melted butter and freshly grated Parmesan with sliced button mushrooms.', price: 249, cal: 480, isVeg: true, category: 'pasta', badge: '', img: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ps4', name: 'Baked Chicken Lasagna', desc: 'Multi-layered flat pasta baked with juicy spiced chicken bolognese, creamy bechamel, and melted golden mozzarella.', price: 299, cal: 590, isVeg: false, category: 'pasta', badge: 'New', img: 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=500&q=80' },
+
+      // chinese
+      { id: 'ch1', name: 'Spicy Chilli Paneer Dry', desc: 'Golden-fried fresh cottage cheese cubes tossed with capsicum, onions, ginger, and spicy red soy chili garlic paste.', price: 219, cal: 380, isVeg: true, category: 'chinese', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ch2', name: 'Veg Manchurian in Gravy', desc: 'Crispy fried local mix-vegetable rounds served in a thick, delicious ginger and soy dark gravy.', price: 189, cal: 310, isVeg: true, category: 'chinese', badge: '', img: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ch3', name: 'Classic Street Hakka Noodles', desc: 'Quickly stir-fried Chinese noodles cooked in super hot wok with shredded carrots, cabbage, and soy.', price: 169, cal: 290, isVeg: true, category: 'chinese', badge: '', img: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ch4', name: 'Spicy Sichuan Fried Rice', desc: 'Fiery long-grain fried rice wok-tossed with fresh vegetables and home-made Sichuan spice sauce.', price: 179, cal: 340, isVeg: true, category: 'chinese', badge: '', img: 'https://images.unsplash.com/photo-1603133872878-685f586b6d1d?auto=format&fit=crop&w=500&q=80' },
+
+      // maincourse
+      { id: 'mc1', name: 'Mughlai Paneer Lababdar', desc: 'Chunks of cottage cheese simmered in rich gravy of sweet cashews, caramelized onions, and butter cream.', price: 269, cal: 430, isVeg: true, category: 'maincourse', badge: 'Chef Special', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mc2', name: 'Dhaba Style Dal Tadka', desc: 'Nutritious yellow split lentils tempered with cumin seeds, roasted garlic, and hot whole dry red chilis in ghee.', price: 159, cal: 240, isVeg: true, category: 'maincourse', badge: '', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mc3', name: 'Tandoori Butter Naan', desc: 'Clay oven leavened Indian flatbread baked to order and brushed with generous amount of table butter.', price: 49, cal: 180, isVeg: true, category: 'maincourse', badge: '', img: 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mc4', name: 'Kashmiri Dum Aloo', desc: 'Whole baby potatoes slow-cooked on low flame in spiced Kashmiri red chili, yogurt and fennel-seed gravy.', price: 199, cal: 320, isVeg: true, category: 'maincourse', badge: '', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=500&q=80' },
+
+      // dessert
+      { id: 'ds1', name: 'Sizzling Fudge Brownie', desc: 'Warm fudge walnut brownie served on hot sizzling cast iron platter with vanilla bean scoop and chocolate syrup.', price: 169, cal: 420, isVeg: true, category: 'dessert', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1564355808539-22fda35bed7e?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ds2', name: 'Premium Mango Cream Slice', desc: 'Airy vanilla cake layered with freshly whipped cream, rich Alphonso mango pulp, and white chocolate leaf garnish.', price: 149, cal: 340, isVeg: true, category: 'dessert', badge: 'Signature', img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ds3', name: 'NY Blueberry Cheesecake', desc: 'Gourmet, dense baked cheesecake on crunchy graham cracker base, topped with sweet wild blueberry syrup.', price: 189, cal: 390, isVeg: true, category: 'dessert', badge: '', img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ds4', name: 'Velvet Espresso Tiramisu', desc: 'Italian ladyfinger cookies soaked in rich espresso coffee layered with sweet creamy mascarpone cream.', price: 199, cal: 380, isVeg: true, category: 'dessert', badge: 'New', img: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=500&q=80' },
+
+      // cookie
+      { id: 'ck1', name: 'Gooey Nutella Hazelnut Cookie', desc: 'Warm soft-baked cookie stuffed with real Nutella spread and roasted Turkish hazelnuts.', price: 119, cal: 310, isVeg: true, category: 'cookie', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ck2', name: 'Red Velvet White Choc Cookie', desc: 'Gorgeous cocoa-infused cookie loaded with rich, sweet white chocolate chips.', price: 109, cal: 295, isVeg: true, category: 'cookie', badge: '', img: 'https://images.unsplash.com/photo-1558961313-7f2a13e2f494?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ck3', name: 'Traditional Pistachio Butter', desc: 'Melt-in-mouth soft buttery cookie packed with salty organic crushed pistachios.', price: 99, cal: 270, isVeg: true, category: 'cookie', badge: '', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80' },
+      { id: 'ck4', name: 'Whole Oats & Wild Cranberry', desc: 'Healthy roasted multi-grain whole wheat oats cookie baked with sweet dry cranberries.', price: 89, cal: 240, isVeg: true, category: 'cookie', badge: 'Healthy', img: 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=500&q=80' },
+
+      // coffee
+      { id: 'cf1', name: 'Classic Smooth Latte', desc: 'Velvety espresso shot brewed from pure Arabica beans with plenty of steamed microfoam milk.', price: 129, cal: 120, isVeg: true, category: 'coffee', badge: '', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cf2', name: 'Caramel Macchiato Gold', desc: 'Intense espresso marked with sweet vanilla syrup, creamy microfoam, and buttery caramel drizzle.', price: 149, cal: 190, isVeg: true, category: 'coffee', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1485808191679-5f63bb0627d3?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cf3', name: 'Italian Affogato Gelato', desc: 'A rich scoop of organic Madagascar vanilla bean gelato drowned in double hot espresso shot.', price: 139, cal: 180, isVeg: true, category: 'coffee', badge: 'New', img: 'https://images.unsplash.com/photo-1594911774802-8822a707cbb3?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cf4', name: 'Whipped Irish Cream Coffee', desc: 'Artisanal cold drip espresso layered with rich hazelnut extract and freshly whipped light dairy cream.', price: 149, cal: 170, isVeg: true, category: 'coffee', badge: '', img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80' },
+
+      // colddrinks
+      { id: 'cd1', name: 'Iced Frappe Classic Blend', desc: 'Creamy, thick-blended iced Arabica coffee topped with a dusting of dark premium cocoa powder.', price: 139, cal: 240, isVeg: true, category: 'colddrinks', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cd2', name: 'Double Oreo Cookies Shake', desc: 'Rich milkshake blended with real cocoa Oreo cookies, vanilla ice cream, and chocolate ganache.', price: 159, cal: 380, isVeg: true, category: 'colddrinks', badge: '', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cd3', name: 'Hazelnut Frappe Supreme', desc: 'Refreshing ice-blended coffee infused with rich roasted Turkish hazelnut syrup and soft cream.', price: 169, cal: 280, isVeg: true, category: 'colddrinks', badge: 'Most Ordered', img: 'https://images.unsplash.com/photo-1579888944880-d98341148301?auto=format&fit=crop&w=500&q=80' },
+      { id: 'cd4', name: 'Dark Chocolate Fudge Shake', desc: 'Super thick, premium dark chocolate shake made with organic cocoa fudge and fresh milk.', price: 159, cal: 340, isVeg: true, category: 'colddrinks', badge: 'New', img: 'https://images.unsplash.com/photo-1534706936160-d5ee67737249?auto=format&fit=crop&w=500&q=80' },
+
+      // mocktail
+      { id: 'mt1', name: 'Classic Fresh Mint Mojito', desc: 'Crushed sweet garden mint leaves, sliced lime wedges, cane brown sugar, topped with sparkling club soda.', price: 129, cal: 110, isVeg: true, category: 'mocktail', badge: 'Best Seller', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mt2', name: 'Vibrant Blue Lagoon Cooler', desc: 'Chilled Mocktail of blue curaçao citrus syrup, lemon juice, sparkling Sprite, and fresh mint.', price: 139, cal: 130, isVeg: true, category: 'mocktail', badge: '', img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mt3', name: 'Watermelon Mint Hydration', desc: 'Blended sweet watermelon, freshly squeezed lemon juice, organic Himalayan black salt, and cool mint.', price: 149, cal: 115, isVeg: true, category: 'mocktail', badge: '', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80' },
+      { id: 'mt4', name: 'Peach Infused Iced Tea', desc: 'Slow-brewed aromatic Darjeeling black tea infused with sweet peach juice, served over crushed ice.', price: 129, cal: 95, isVeg: true, category: 'mocktail', badge: 'New', img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80' }
+    ];
+
+    // Global Active States
+    let currentCategory = 'popular';
+    let dietFilter = 'all'; // all, veg, nonveg
+    let activeSearchQuery = '';
+    let selectedTable = null;
+    let selectedService = null;
+
+    // Initialize application on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderCategoryTabs();
+      applyFiltersAndSort();
+      lucide.createIcons();
+      setupHeaderShadow();
+    });
+
+    // Theme Configuration
+    function initTheme() {
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+      });
+    }
+
+    // Scroll header effects
+    function setupHeaderShadow() {
+      const header = document.querySelector('header');
+      const stickyControls = document.getElementById('menuSection');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.className = "fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-3.5 px-4 md:px-8 shadow-md border-b border-white/20 " + 
+            (document.documentElement.classList.contains('dark') ? "glass-dark" : "glass-light");
+          document.getElementById('backToTop').classList.remove('scale-0', 'opacity-0');
+        } else {
+          header.className = "fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-3 px-4 md:px-8 border-b border-transparent bg-transparent";
+          document.getElementById('backToTop').classList.add('scale-0', 'opacity-0');
+        }
+      });
+    }
+
+    // Render Categories
+    function renderCategoryTabs() {
+      const tabContainer = document.getElementById('categoryTabs');
+      tabContainer.innerHTML = '';
+      
+      CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.id = `catBtn-${cat.id}`;
+        btn.onclick = () => selectCategory(cat.id);
+        
+        // Custom styling for active category
+        btn.className = `px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm border cursor-pointer select-none `;
+        btn.innerText = cat.label;
+        
+        tabContainer.appendChild(btn);
+      });
+      updateCategoryTabStyles();
+    }
+
+    function selectCategory(catId) {
+      currentCategory = catId;
+      updateCategoryTabStyles();
+      
+      // Auto scroll to active tab in horizontal container
+      const activeBtn = document.getElementById(`catBtn-${catId}`);
+      if (activeBtn) {
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+
+      // Smooth skeleton transition prior to card render
+      showSkeletonLoader();
+      setTimeout(() => {
+        applyFiltersAndSort();
+      }, 250);
+    }
+
+    function updateCategoryTabStyles() {
+      CATEGORIES.forEach(cat => {
+        const btn = document.getElementById(`catBtn-${cat.id}`);
+        if (!btn) return;
+        if (cat.id === currentCategory) {
+          btn.className = "px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-md border border-brand-gold bg-brand-gold text-brand-brown transform scale-105";
+        } else {
+          btn.className = "px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm border border-brand-creamDark/40 dark:border-brand-brown/60 bg-white/70 dark:bg-brand-brown/50 text-black dark:text-brand-cream/80 hover:bg-brand-gold/10";
+        }
+      });
+    }
+
+    function scrollCategories(amount) {
+      document.getElementById('categoryTabs').scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    // Filters and sorting logic
+    function setDietFilter(type) {
+      dietFilter = type;
+      ['all', 'veg', 'nonveg'].forEach(t => {
+        const btn = document.getElementById(`diet-${t}`);
+        if (t === type) {
+          btn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-gold text-brand-brown transition-all duration-300 shadow-sm border border-brand-gold";
+        } else {
+          const isVeg = t === 'veg';
+          const isNonVeg = t === 'nonveg';
+          btn.className = "px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/70 dark:bg-brand-brown/50 hover:bg-brand-gold/10 border border-brand-creamDark/40 dark:border-brand-brown/60 transition-all duration-300 shadow-sm flex items-center gap-1.5 text-black dark:text-brand-cream/80";
+        }
+      });
+      applyFiltersAndSort();
+    }
+
+    // Real-time search configuration
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearch');
+    
+    searchInput.addEventListener('input', (e) => {
+      activeSearchQuery = e.target.value.trim().toLowerCase();
+      if (activeSearchQuery.length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
+      applyFiltersAndSort();
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      activeSearchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      applyFiltersAndSort();
+    });
+
+    function resetAllFilters() {
+      searchInput.value = '';
+      activeSearchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      currentCategory = 'popular';
+      dietFilter = 'all';
+      document.getElementById('sortSelect').value = 'default';
+      
+      // Reset filter buttons visual state
+      setDietFilter('all');
+      selectCategory('popular');
+    }
+
+    // Apply Filters & Render
+    function applyFiltersAndSort() {
+      let filtered = [...MENU_ITEMS];
+
+      // 1. Filter by category
+      if (currentCategory && currentCategory !== 'all') {
+        filtered = filtered.filter(item => item.category === currentCategory);
+      }
+
+      // 2. Filter by dietary preference
+      if (dietFilter === 'veg') {
+        filtered = filtered.filter(item => item.isVeg);
+      } else if (dietFilter === 'nonveg') {
+        filtered = filtered.filter(item => !item.isVeg);
+      }
+
+      // 3. Search query matching
+      if (activeSearchQuery) {
+        filtered = filtered.filter(item => 
+          item.name.toLowerCase().includes(activeSearchQuery) || 
+          item.desc.toLowerCase().includes(activeSearchQuery)
+        );
+      }
+
+      // 4. Sort Items
+      const sortVal = document.getElementById('sortSelect').value;
+      if (sortVal === 'price-asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortVal === 'price-desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortVal === 'calories') {
+        filtered.sort((a, b) => a.cal - b.cal);
+      }
+
+      // Show/Hide filter notice banner
+      const statusBanner = document.getElementById('filterStatus');
+      const statusText = document.getElementById('filterStatusText');
+      if (dietFilter !== 'all' || activeSearchQuery) {
+        statusBanner.classList.remove('hidden');
+        statusText.innerText = `Found ${filtered.length} matching delicacies matching your filter.`;
+      } else {
+        statusBanner.classList.add('hidden');
+      }
+
+      renderMenuCards(filtered);
+    }
+
+    function showSkeletonLoader() {
+      document.getElementById('skeletonLoader').classList.remove('hidden');
+      document.getElementById('menuContainer').classList.add('hidden');
+      document.getElementById('noItemsState').classList.add('hidden');
+    }
+
+    // Render beautiful, luxury cards with parallax and stagger effects
+    function renderMenuCards(items) {
+      const container = document.getElementById('menuContainer');
+      const skeleton = document.getElementById('skeletonLoader');
+      const emptyState = document.getElementById('noItemsState');
+      
+      skeleton.classList.add('hidden');
+      container.innerHTML = '';
+
+      if (items.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      container.classList.remove('hidden');
+
+      items.forEach((item, index) => {
+        // Build card HTML elements carefully
+        const card = document.createElement('div');
+        card.className = "fade-up-card rounded-[2rem] overflow-hidden glass-light dark:glass-dark shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 relative border border-white/60 dark:border-white/10 flex flex-col group p-4 cursor-pointer";
+        card.setAttribute('onclick', `openFoodModal('${item.id}')`);
+
+        // Badges HTML
+        let badgeHtml = '';
+        if (item.badge) {
+          badgeHtml = `<span class="absolute top-3 left-3 z-10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest bg-brand-gold text-black rounded-lg shadow-md animate-pulse">${item.badge}</span>`;
+        }
+
+        // FSSAI Dot Badge
+        const fssaiClass = item.isVeg ? 'veg-border' : 'nonveg-border';
+        const fssaiDotClass = item.isVeg ? 'veg-dot' : 'nonveg-dot';
+        const dietLabel = item.isVeg ? 'Veg' : 'Non Veg';
+
+        card.innerHTML = `
+          <!-- Image Container nested beautifully -->
+          <div class="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-brand-cream/30 dark:bg-black/20 shadow-inner mb-4">
+            ${badgeHtml}
+            <img src="${item.img}" alt="${item.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          
+          <!-- Body -->
+          <div class="flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-1.5 mb-2">
+                <!-- Authentic Indian Veg dot -->
+                <div class="flex items-center gap-1.5">
+                  <div class="w-3.5 h-3.5 flex items-center justify-center p-0.5 rounded ${fssaiClass}" title="${dietLabel}">
+                    <div class="w-1.5 h-1.5 rounded-full ${fssaiDotClass}"></div>
+                  </div>
+                  <span class="text-[9px] uppercase tracking-wider text-black font-bold">${dietLabel}</span>
+                </div>
+                <span class="text-[10px] font-mono text-black flex items-center gap-1">
+                  <i data-lucide="flame" class="w-3 h-3 text-brand-orange shrink-0"></i> ${item.cal} kcal
+                </span>
+              </div>
+              
+              <h4 class="font-serif font-bold text-base md:text-lg text-black tracking-tight group-hover:text-brand-goldDark transition-colors duration-300 mb-1.5 line-clamp-1">${item.name}</h4>
+              <p class="text-xs text-black line-clamp-2 leading-relaxed mb-4 italic">${item.desc}</p>
+            </div>
+
+            <!-- Price and quick request -->
+            <div class="flex items-center justify-between pt-2 border-t border-black/15 mt-auto">
+              <span class="font-serif font-bold text-xl text-black">₹${item.price}</span>
+              <button class="w-9 h-9 rounded-full bg-brand-brown dark:bg-brand-gold text-brand-white dark:text-brand-brown hover:bg-brand-orange dark:hover:bg-brand-orange flex items-center justify-center transition-all duration-300 shadow-md group-hover:scale-110 active:scale-95">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+        
+        // Trigger micro staggered entry transition
+        setTimeout(() => {
+          card.classList.add('visible');
+        }, index * 40);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Modal Item Management
+    function openFoodModal(itemId) {
+      const item = MENU_ITEMS.find(x => x.id === itemId);
+      if (!item) return;
+
+      const modal = document.getElementById('foodModal');
+      const content = document.getElementById('modalContent');
+
+      // Populate item specific information
+      document.getElementById('modalImg').src = item.img;
+      document.getElementById('modalName').innerText = item.name;
+      document.getElementById('modalCategory').innerText = item.category.replace('colddrinks', 'cold drinks');
+      document.getElementById('modalPrice').innerText = `₹${item.price}`;
+      document.getElementById('modalCalories').innerText = `${item.cal} kcal`;
+      document.getElementById('modalDesc').innerText = item.desc;
+
+      // Realistic nutrition generation
+      document.getElementById('nutrCal').innerText = item.cal;
+      document.getElementById('nutrCarbs').innerText = `${Math.round(item.cal * 0.12)}g`;
+      document.getElementById('nutrProtein').innerText = `${Math.round(item.cal * 0.03)}g`;
+      document.getElementById('nutrFat').innerText = `${Math.round(item.cal * 0.04)}g`;
+
+      // Badge Setup
+      const dietBadge = document.getElementById('modalDietBadge');
+      const fssaiDot = item.isVeg ? '<span class="w-2 h-2 rounded-full bg-brand-green"></span> Veg' : '<span class="w-2 h-2 rounded-full bg-brand-red"></span> Non Veg';
+      dietBadge.innerHTML = fssaiDot;
+
+      const specialBadge = document.getElementById('modalSpecialBadge');
+      if (item.badge) {
+        specialBadge.classList.remove('hidden');
+        specialBadge.innerText = item.badge;
+      } else {
+        specialBadge.classList.add('hidden');
+      }
+
+      // Allergen Notice Mapping
+      const allergenText = document.getElementById('allergenText');
+      const nameLower = item.name.toLowerCase();
+      const descLower = item.desc.toLowerCase();
+      if (nameLower.includes('paneer') || nameLower.includes('cheese') || nameLower.includes('latte') || nameLower.includes('cappuccino') || nameLower.includes('frappe') || nameLower.includes('shake')) {
+        allergenText.innerText = "Contains milk products/dairy. Prepared in a facility handling tree nuts.";
+      } else if (nameLower.includes('cookie') || nameLower.includes('brownie') || nameLower.includes('pizza') || nameLower.includes('sandwich') || nameLower.includes('pasta') || nameLower.includes('noodles')) {
+        allergenText.innerText = "Contains wheat gluten and milk solids. May contain egg traces.";
+      } else if (nameLower.includes('hazelnut') || nameLower.includes('pistachio')) {
+        allergenText.innerText = "Contains tree nuts (pistachio/hazelnut) and dairy cream.";
+      } else {
+        allergenText.innerText = "Prepared in a hygienic environment handling milk solids, nuts, and grain gluten.";
+      }
+
+      // Open transition animation
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.add('opacity-100');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }, 50);
+
+      // Store active loaded item on modal
+      modal.setAttribute('data-active-item', item.name);
+    }
+
+    function closeFoodModal() {
+      const modal = document.getElementById('foodModal');
+      const content = document.getElementById('modalContent');
+      modal.classList.remove('opacity-100');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function orderDishFromModal() {
+      const modal = document.getElementById('foodModal');
+      const itemName = modal.getAttribute('data-active-item');
+      closeFoodModal();
+      
+      // Open waiter modal and preset assistance request
+      openWaiterModal();
+      selectService('order');
+      showNotification('Selection Noted', `Added "${itemName}" to request. Complete Table number to notify captain!`);
+    }
+
+    function shareItemQR() {
+      const modal = document.getElementById('foodModal');
+      const itemName = modal.getAttribute('data-active-item');
+      document.getElementById('qrItemName').innerText = itemName;
+      
+      // Open QR modal directly
+      closeFoodModal();
+      openQrModal();
+    }
+
+    // QR Modal Management
+    function openQrModal() {
+      const qr = document.getElementById('qrModal');
+      const content = document.getElementById('qrModalContent');
+      qr.classList.remove('hidden');
+      setTimeout(() => {
+        qr.classList.add('opacity-100');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }, 50);
+    }
+
+    function closeQrModal() {
+      const qr = document.getElementById('qrModal');
+      const content = document.getElementById('qrModalContent');
+      qr.classList.remove('opacity-100');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      setTimeout(() => {
+        qr.classList.add('hidden');
+      }, 300);
+    }
+
+    // Waiter Captain Assistant Management
+    function openWaiterModal() {
+      const modal = document.getElementById('waiterModal');
+      const content = document.getElementById('waiterModalContent');
+      
+      // Reset form view
+      document.getElementById('waiterForm').classList.remove('hidden');
+      document.getElementById('waiterSuccessState').classList.add('hidden');
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.add('opacity-100');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+      }, 50);
+    }
+
+    function closeWaiterModal() {
+      const modal = document.getElementById('waiterModal');
+      const content = document.getElementById('waiterModalContent');
+      modal.classList.remove('opacity-100');
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    function selectTable(num) {
+      selectedTable = num;
+      document.getElementById('selectedTable').value = num;
+      // Style buttons
+      document.querySelectorAll('.table-btn').forEach(btn => {
+        const btnNum = btn.id.split('-')[1];
+        if (parseInt(btnNum) === num) {
+          btn.className = "table-btn py-2.5 rounded-xl border border-brand-gold bg-brand-gold text-brand-brown text-sm font-bold shadow-md transform scale-105 transition-all duration-300";
+        } else {
+          btn.className = "table-btn py-2.5 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold dark:hover:border-brand-gold text-brand-brown dark:text-brand-cream text-sm font-semibold transition-colors duration-300";
+        }
+      });
+    }
+
+    function selectService(type) {
+      selectedService = type;
+      document.getElementById('selectedService').value = type;
+      
+      const services = ['order', 'water', 'bill', 'help'];
+      services.forEach(s => {
+        const btn = document.getElementById(`serv-${s}`);
+        if (s === type) {
+          btn.className = "service-btn text-left p-3 rounded-xl border border-brand-gold bg-brand-gold/15 text-brand-gold transform scale-[1.02] transition-all duration-300 flex flex-col gap-1.5 shadow-sm";
+        } else {
+          btn.className = "service-btn text-left p-3 rounded-xl border border-brand-creamDark/50 dark:border-brand-brown/50 hover:border-brand-gold transition-all duration-300 flex flex-col gap-1.5 text-brand-brown dark:text-brand-cream";
+        }
+      });
+    }
+
+    function submitWaiterRequest(event) {
+      event.preventDefault();
+      if (!selectedTable) {
+        showNotification('Selection Required', 'Please select a table number first!');
+        return;
+      }
+      if (!selectedService) {
+        showNotification('Selection Required', 'Please select assistance requested.');
+        return;
+      }
+
+      // Map service text
+      let serviceLabel = '';
+      if (selectedService === 'order') serviceLabel = 'Ordering Delicacies';
+      if (selectedService === 'water') serviceLabel = 'Mineral Water Service';
+      if (selectedService === 'bill') serviceLabel = 'Bill and Payment';
+      if (selectedService === 'help') serviceLabel = 'General Captain Call';
+
+      // Set Success texts
+      document.getElementById('successTable').innerText = selectedTable;
+      document.getElementById('successService').innerText = serviceLabel;
+
+      // Swap view in modal
+      document.getElementById('waiterForm').classList.add('hidden');
+      document.getElementById('waiterSuccessState').classList.remove('hidden');
+
+      // Play chime/notification sound or show toaster
+      showNotification('Captain Notified', `Service Captain assigned to Table ${selectedTable} for ${serviceLabel}!`);
+    }
+
+    // Bottom Navigation Handlers
+    function selectTabMenu() {
+      selectCategory('popular');
+    }
+
+    function focusSearchMobile() {
+      const sInput = document.getElementById('searchInput');
+      sInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => sInput.focus(), 500);
+    }
+
+    function scrollToPopular() {
+      selectCategory('popular');
+      document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Custom Toast Notification System
+    function showNotification(title, message) {
+      const banner = document.getElementById('notifBanner');
+      document.getElementById('notifTitle').innerText = title;
+      document.getElementById('notifText').innerText = message;
+      
+      banner.classList.remove('translate-x-[150%]');
+      setTimeout(() => {
+        hideNotification();
+      }, 5000);
+    }
+
+    function hideNotification() {
+      const banner = document.getElementById('notifBanner');
+      banner.classList.add('translate-x-[150%]');
+    }
+  </script>
+</body>
+</html>

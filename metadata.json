@@ -1,0 +1,6 @@
+{
+  "name": "Uphar Cookies & Cafe",
+  "description": "A premium, ultra-responsive digital restaurant menu with high-fidelity glassmorphism, category scrolling, search filtering, dark mode, and mobile-optimized interactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
